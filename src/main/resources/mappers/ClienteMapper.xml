@@ -71,6 +71,12 @@
       LEFT JOIN VI_TIPOITEM AS ti ON (i.TIPOITEM_id = ti.id)
   </select>
 
+  <insert parameterType="map" id="insertarCliente">
+    INSERT INTO VI_CLIENTES
+      VALUES(#{cli.documento}, #{cli.nombre}, #{cli.telefono}, 
+        #{cli.direccion}, #{cli.email}, #{cli.vetado})
+  </insert>
+  
   <resultMap type='Cliente' id='ClienteResult'>
     <id property='documento' column='c_documento'/>
     <result property='nombre' column='c_nombre'/>

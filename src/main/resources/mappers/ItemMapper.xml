@@ -44,6 +44,15 @@
         #{item.genero}, #{item.tipo.id})
     </insert>
 
+    <select parameterType="map" id="consultarItemsDisponibles" resultMap="ItemResult">
+      SELECT id
+      FROM VI_ITEMS
+	    WHERE id IN (SELECT ITEMS_id
+					        FROM VI_ITEMRENTADO
+					        WHERE fechafinrenta <= CURDATE()
+					        );
+    </select>
+
     <resultMap type='Item' id='ItemResult'>
         <id property='id' column='i_id'/>
         <result property='nombre' column='i_nombre'/>

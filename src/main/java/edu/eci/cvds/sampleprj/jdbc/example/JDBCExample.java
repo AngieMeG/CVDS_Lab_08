@@ -141,7 +141,7 @@ public class JDBCExample {
         try{
             //Crear prepared statement
             PreparedStatement statement = con.prepareStatement(query);
-            //asignar parámetros
+            //asignar pará metros
             statement.setInt(1, codigoPedido);
             //usar executeQuery
             ResultSet result = statement.executeQuery();
