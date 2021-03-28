@@ -38,4 +38,24 @@ public interface ClienteMapper {
      * @param cl, Objeto cliente a insertar
      */
     public void insertarCliente(@Param("cli") Cliente cl);
+
+    /**
+     * Insertar un item en rentados
+     * @param docu, documento del cliente que lo va a rentar
+     * @param item, identificadr del item
+     * @param initialDate fecha en la que inicia el alquiler
+     * @param finalDate fecha en la que deberia finalizar el alquiler
+     */
+    public void insertarItemRentado(@Param("cli") long docu,
+                                    @Param("idIt") int item,
+                                    @Param("iniD") Date initialDate,
+                                    @Param("finD") Date finalDate);
+
+    /**
+     * Actualiza el estado vetado del cliente
+     * @param docu, identificador del cliente
+     * @param estado el nuevo estado de vetado
+     */
+    public void actualizarEstado(@Param("cli") long docu, 
+                                @Param("vet") boolean estado);
 }

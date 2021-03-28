@@ -5,6 +5,7 @@ import edu.eci.cvds.samples.entities.Item;
 import edu.eci.cvds.samples.entities.ItemRentado;
 import edu.eci.cvds.samples.entities.TipoItem;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ServiciosAlquiler {
@@ -42,7 +43,7 @@ public interface ServiciosAlquiler {
    /**
    * @obj consultar los items que estan disponibles para alquiler
    * @return el listado de items disponibles
- * @throws ExcepcionServiciosAlquiler
+   * @throws ExcepcionServiciosAlquiler
    */
    public abstract List<Item> consultarItemsDisponibles() throws ExcepcionServiciosAlquiler;
 
@@ -95,4 +96,11 @@ public interface ServiciosAlquiler {
 
    public abstract void vetarCliente(long docu, boolean estado) throws ExcepcionServiciosAlquiler;
 
+   public default void verificarNumDias(int numdias) throws ExcepcionServiciosAlquiler{
+     if (numdias <= 0 ) throw new ExcepcionServiciosAlquiler(ExcepcionServiciosAlquiler.INVALID_DAYS);
+   }
+
+   public default void verificarFechas(LocalDate fechaInicio, LocalDate fechaFin) throws ExcepcionServiciosAlquiler{
+     if (fechaInicio.isBefore(fechaFin)) throw new ExcepcionServiciosAlquiler(ExcepcionServiciosAlquiler.INVALID_DATE);
+   }
 }

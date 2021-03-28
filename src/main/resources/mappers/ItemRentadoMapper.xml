@@ -22,7 +22,7 @@
             ti.id AS ti_id,
             ti.descripcion AS ti_descripcion
 
-        FROM VI_ITEMRENTADO AS ir_id
+        FROM VI_ITEMRENTADO AS ir
             LEFT JOIN VI_ITEMS AS i ON (ir.ITEMS_id = i.id)
             LEFT JOIN VI_TIPOITEM AS ti ON (i.TIPOITEM_id = ti.id)
     </select>
@@ -44,10 +44,35 @@
             ti.id AS ti_id,
             ti.descripcion AS ti_descripcion
 
-        FROM VI_ITEMRENTADO AS ir_id
+        FROM VI_ITEMRENTADO AS ir
             LEFT JOIN VI_ITEMS AS i ON (ir.ITEMS_id = i.id)
             LEFT JOIN VI_TIPOITEM AS ti ON (i.TIPOITEM_id = ti.id)
         WHERE CLIENTES_documento = #{idIt}
+    </select>
+
+    <select parameterType="map" id="consultarItemRentadoporItem" resultMap="ItemRentadoResult">
+        SELECT 
+            ir.id AS ir_id,
+            ir.fechainiciorenta AS ir_fechainiciorenta,
+            ir.fechafinrenta AS ir_fechafinrenta,
+
+            i.id AS i_id,
+            i.nombre AS i_nombre,
+            i.descripcion AS i_descripcion,
+            i.fechalanzamiento AS i_fechalanzamiento,
+            i.tarifaxdia AS i_tarifaxdia,
+            i.formatorenta AS i_formatorenta,
+            i.genero AS i_genero,        
+
+            ti.id AS ti_id,
+            ti.descripcion AS ti_descripcion
+
+        FROM VI_ITEMRENTADO AS ir
+            LEFT JOIN VI_ITEMS AS i ON (ir.ITEMS_id = i.id)
+            LEFT JOIN VI_TIPOITEM AS ti ON (i.TIPOITEM_id = ti.id)
+        WHERE ir.ITEMS_id = #{idIt}
+        ORDER BY ir.fechainiciorenta DESC
+        LIMIT 1
     </select>
     
     <resultMap type='ItemRentado' id='ItemRentadoResult' >

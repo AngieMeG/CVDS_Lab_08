@@ -77,6 +77,16 @@
         #{cli.direccion}, #{cli.email}, #{cli.vetado})
   </insert>
   
+  <insert parameterType="map" id="insertarItemRentado">
+    INSERT INTO VI_ITEMRENTADO (CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+      VALUES(#{cli}, #{idIt}, #{iniD}, #{finD})
+  </insert>
+
+  <update parameterType="map" id="actualizarEstado">
+    UPDATE VI_CLIENTES
+    SET vetado = #{vet} WHERE documento = #{cli}
+  </update>
+  
   <resultMap type='Cliente' id='ClienteResult'>
     <id property='documento' column='c_documento'/>
     <result property='nombre' column='c_nombre'/>
