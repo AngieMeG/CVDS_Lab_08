@@ -105,7 +105,8 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
            ItemRentado itemRentado = itemRentadoDAO.loadByItem(iditem);
            if (itemRentado == null) throw new ExcepcionServiciosAlquiler(ExcepcionServiciosAlquiler.NO_ITEM_RENTED);
            LocalDate fechaFinal = itemRentado.getFechafinrenta().toLocalDate();
-           long dias = ChronoUnit.DAYS.between(fechaDevolucion.toLocalDate(), fechaFinal);
+           long dias = ChronoUnit.DAYS.between(fechaFinal, fechaDevolucion.toLocalDate());
+           System.out.println("Test: " + dias);
            if (dias < 0) dias = 0;
            return  dias * valorMultaRetrasoxDia(iditem);
        } catch (PersistenceException ex){
@@ -196,6 +197,16 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
            clienteDAO.updateState(docu, estado);
        } catch (PersistenceException ex){
            throw new ExcepcionServiciosAlquiler("Error al vetal al cliente.");
+       }
+   }
+   
+   @Transactional
+   @Override
+   public void registrarTipoItem(TipoItem ti) throws ExcepcionServiciosAlquiler {
+       try{
+           tipoItemDAO.save(ti);
+       } catch (PersistenceException ex){
+           throw new ExcepcionServiciosAlquiler("Error al registrar el tipo de item.");
        }
    }
 }

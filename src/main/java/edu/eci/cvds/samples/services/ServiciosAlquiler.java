@@ -96,6 +96,8 @@ public interface ServiciosAlquiler {
 
    public abstract void vetarCliente(long docu, boolean estado) throws ExcepcionServiciosAlquiler;
 
+   public void registrarTipoItem(TipoItem ti) throws ExcepcionServiciosAlquiler;
+
    public default void verificarNumDias(int numdias) throws ExcepcionServiciosAlquiler{
      if (numdias <= 0 ) throw new ExcepcionServiciosAlquiler(ExcepcionServiciosAlquiler.INVALID_DAYS);
    }

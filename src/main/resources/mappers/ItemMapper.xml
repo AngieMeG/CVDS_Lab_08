@@ -67,10 +67,6 @@
         ti.descripcion AS ti_descripcion
 
       FROM VI_ITEMS AS i LEFT JOIN VI_TIPOITEM AS ti ON (i.TIPOITEM_id = ti.id)
-	    WHERE i.id IN (SELECT ITEMS_id
-					        FROM VI_ITEMRENTADO
-                  WHERE DATEDIFF(fechafinrenta, CURDATE()) >= 0
-					        )
     </select>
     
     <update parameterType="map" id="actualizarTarifaItem">

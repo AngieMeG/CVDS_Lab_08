@@ -13,6 +13,6 @@ public interface TipoItemMapper {
     
     public TipoItem getTipoItem(@Param("idTi") int id);
     
-    public void addTipoItem(@Param("desTi") String des);
+    public void addTipoItem(@Param("ti") TipoItem des);
 
 }

@@ -41,7 +41,8 @@ public class MyBATISItemDAO implements ItemDAO{
     try{
       return itemMapper.consultarItemsDisponibles();
     } catch (org.apache.ibatis.exceptions.PersistenceException e){
-        throw new PersistenceException("Error al consultar items disponibles.", e);
+      System.out.println(e.getMessage());
+      throw new PersistenceException("Error al consultar items disponibles.", e);
     }
   }
 

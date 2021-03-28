@@ -21,7 +21,11 @@ public class MyBATISTipoItemDAO implements TipoItemDAO{
 
     @Override
     public void save(TipoItem it) throws PersistenceException {
-        // TODO Auto-generated method stub
+        try{
+            tipoItemMapper.addTipoItem(it);
+        } catch (org.apache.ibatis.exceptions.PersistenceException e){
+            throw new PersistenceException("Error al insertar el tipo de item.", e);
+        }
         
     }
 

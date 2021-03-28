@@ -19,9 +19,8 @@
       WHERE ti.id = #{idTi}
     </select>
 
-    <insert parameterType="map" id="agregarItemRentadoACliente">
-      INSERT INTO VI_TIPOITEM (descripcio)
-        VALUES (#{desTi})
+    <insert parameterType="map" id="addTipoItem">
+      INSERT INTO VI_TIPOITEM VALUES (#{ti.id}, #{ti.descripcion})
     </insert>
 
     <resultMap type='TipoItem' id='TipoItemResult'>
