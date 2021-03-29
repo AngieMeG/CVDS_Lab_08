@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title> Registro Cliente </title>
+</h:head>
+<style>
+.ui-panelgrid td {
+    padding: 2px 30px ;
+}
+</style>
+<h:body>
+    <div class="container">
+	<h:form id="Clientes">
+	<p:panel header="Clientes" toggleable="true" toggleSpeed="500" widgetVar="panel" style="text-align: center" name="panel1" id="panel1">
+            <p:dataTable  id="clienteDT" var="cliente" value="#{AlquilerBean.consultarClientes()}" selectionMode="single" selection="#{AlquilerBean.cliente}" rowKey="#{cliente.documento}" rows="10" paginator="true" 
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" style="text-align: left; align: center">
+                <p:column headerText="Documento">
+                    <h:outputText value="#{cliente.documento}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{cliente.nombre}" />
+                </p:column>
+                <p:column headerText="Telefono">
+                    <h:outputText value="#{cliente.telefono}" />
+                </p:column>
+                <p:column headerText="Direccion">
+                    <h:outputText value="#{cliente.direccion}" />
+                </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{cliente.email}" />
+                </p:column>
+                <f:facet name="footer">
+                   <h:commandButton id="select"  value="Seleccionar" action="registroalquiler?faces-redirect = true" styleClass="ui-button" style="paddig: 10px"/>
+                </f:facet>
+            </p:dataTable>
+	 </p:panel>
+	 <p:panel header="Registro" toggleable="true" toggleSpeed="500" widgetVar="panel" style="text-align: center" name="panel2" id="panel2">
+	    <h:panelGrid columns="2">
+		<p:outputLabel for="@next" value="Nombre: "/>
+                <p:inputText  id="nombre" type="String" binding="#{nombre}"  class="form-control"/>
+                <p:outputLabel for="@next" value="Documento: " />
+                <p:inputText  id= "documento" type="Long" binding="#{documento}" class="form-control"/>
+                <p:outputLabel for="@next" value="Telefono: " />
+                <p:inputText  id= "telefono" type="String" binding="#{telefono}" class="form-control"/>
+                <p:outputLabel for="@next" value="Direccion: " />
+                <p:inputText  id= "direccion" type="String" binding="#{direccion}" class="form-control"/>
+                <p:outputLabel for="@next" value="Email: " />
+                <p:inputText  id= "email" type="String" binding="#{email}" class="form-control"/>
+                <p:commandButton  update="Clientes" value="Registrar" actionListener="#{AlquilerBean.registrar(nombre.value,documento.value,telefono.value,direccion.value,email.value)}"/>
+            </h:panelGrid>
+	</p:panel>
+	</h:form>
+    </div>
+</h:body>
+</html>

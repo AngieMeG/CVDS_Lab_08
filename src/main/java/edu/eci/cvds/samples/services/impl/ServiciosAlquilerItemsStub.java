@@ -94,7 +94,7 @@ public class ServiciosAlquilerItemsStub implements ServiciosAlquiler {
        return  new LinkedList<>(itemsDisponibles.values());
    }
 
-   @Override
+   //@Override
    public void registrarItem(Item i) throws ExcepcionServiciosAlquiler {
        if (!itemsDisponibles.containsKey(i.getId())) {
            itemsDisponibles.put(i.getId(), i);
@@ -249,4 +249,6 @@ public class ServiciosAlquilerItemsStub implements ServiciosAlquiler {
        clientes.put(c3.getDocumento(), c3);
 
    }
+
+   public void registrarTipoItem(TipoItem ti) throws ExcepcionServiciosAlquiler{}
 }
