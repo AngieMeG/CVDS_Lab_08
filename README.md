@@ -558,13 +558,14 @@
 
            return optInjector.get().getInstance(ServiciosAlquiler.class);
        }
+    ```
 
 
        public ServiciosAlquiler getServiciosAlquilerTesting(){
            if (!optInjector.isPresent()) {
                optInjector = Optional.of(myBatisInjector("test","mybatis-config-h2.xml"));
            }
-
+    
            return optInjector.get().getInstance(ServiciosAlquiler.class);
        }
 
@@ -572,7 +573,7 @@
        public static ServiciosAlquilerFactory getInstance(){
            return instance;
        }
-
+    
     }
     ```
 8. **Pruebe el programa ‘Main’ suministrado, y con este rectifique que a través de la capa lógica se pueda consultar un cliente.**  
@@ -771,13 +772,31 @@
 
 6. **Construya y despliegue la aplicación con el comando mvn tomcat7:run y realice pruebas de la presentación, que debe estar funcionando correctamente, con la implementación ‘Stub’ del servicio de alquiler.**
 
+   ![vistaCliente](./img/clientes.png)
+
+   ![vistaAlquiler](./img/alquiler.png)
+
 7. **Modifique la configuración de Guice para asociar a la interfaz, el servicio concreto de alquileres, de forma que todos los cambios que se realicen en la presentación, se actualicen en base de datos de manera correcta.**
 
 8. **Realice los ajustes necesarios para que la aplicación funcione de manera correcta y se asegure que todos los métodos están realizando las operaciones sobre la base de datos.**
 
 ## PARTE IV - ENTREGA CONTINUA
 1. **Realice toda la configuración necesaria de CircleCI y Heroku para que la aplicación se construya y despliegue de manera automática cada que se realice un commit al repositorio.**
+
 2. **Realice también todas las configuraciones necesarias de Codacy y los ajustes necesarios para obtener una calificación satisfactoria.**
+
 3. **Verifique que la aplicación se despliegue correctamente en Heroku y sea completamente funcional, tal como se encontraba en local.**
+
+   ![vistaCliente](./img/ClientesHeroku.png)
+
+   ![vistaCliente](./img/AlquilerHeroku.png)
+
 4. **Agregue en el Readme los enlaces necesarios a Heroku, Codacy, etc. para que se pueda verificar el correcto funcionamiento de toda la aplicación.**
 
+## LINKS DE VERIFICACION
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/bb95a11164fc4712943db140899979f4)](https://www.codacy.com/gh/J-382/CVDS_LAB_08/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=J-382/CVDS_LAB_08&amp;utm_campaign=Badge_Grade)[![CircleCI](https://circleci.com/gh/AngieMeG/CVDS_Lab_08.svg?style=svg)](https://circleci.com/gh/AngieMeG/CVDS_Lab_08)
+
+https://lab08-medina-perez-cvds.herokuapp.com/faces/registrocliente.xhtml
+
+https://lab08-medina-perez-cvds.herokuapp.com/faces/registroalquiler.xhtml
