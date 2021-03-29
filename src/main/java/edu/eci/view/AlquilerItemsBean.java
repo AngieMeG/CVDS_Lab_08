@@ -3,9 +3,6 @@ package edu.eci.cvds.view;
 import com.google.inject.Inject;
 
 import edu.eci.cvds.samples.entities.*;
-=======
-import edu.eci.cvds.samples.entities.Cliente;
->>>>>>> 633ac5ab3ae147841e2a0d700fc8ab07e669ef17
 import edu.eci.cvds.samples.services.ServiciosAlquiler;
 import edu.eci.cvds.samples.services.ExcepcionServiciosAlquiler;
 
@@ -24,53 +21,7 @@ public class AlquilerItemsBean extends BasePageBean {
     @Inject
     private ServiciosAlquiler serviciosAlquiler;
     private Cliente cliente;
-    private List<Cliente> added;
     private long costoAlquiler;
-
-    /**
-     * Retorna una lista con la informacion de los clientes almacenados en la base de datos
-     * @return todos los clientes de la base de datos
-     * @throws ExcepcionServiciosAlquiler
-     */
-    public AlquilerItemsBean(){
-	added = new ArrayList<Cliente>();
-	costoAlquiler=0;
-    }
-
-
-
-    public List<Cliente> consultarClientes() throws ExcepcionServiciosAlquiler{
-        try {
-	    List<Cliente> clientes = new ArrayList<Cliente>();
-	    clientes.addAll(added);
-	    clientes.addAll(serviciosAlquiler.consultarClientes());
-            return clientes;   
-        } catch (Exception e) {
-            throw new ExcepcionServiciosAlquiler("Error al consultar la tabla Clientes");
-        }
-    }
-
-    /**
-      * Registra un cliente nuevo en la base de datos
-      * @param Nombre nombre del nuevo cliente
-      * @param Documeto documento de identidad del nuevo cliente
-      * @param Telefono telefono del nuevo cliente
-      * @param Direccion direccion del nuevo cliente
-      * @param Email email del nuevo cliente
-      * 
-      */
-    public void registrar(String nombre, long documento, String telefono, String direccion, String email) throws ExcepcionServiciosAlquiler{
-        added.add(new Cliente(nombre,documento,telefono,direccion,email));
-	serviciosAlquiler.registrarCliente(added.get(added.size() - 1));
-    }
-
-    public void setCliente(Cliente cliente){
-	this.cliente = cliente;
-    }
-    
-    public Cliente getCliente(){
-	return this.cliente;
-    }
 
     /**
      * Retorna una lista con la informacion de los items rentados por un cliente dado
