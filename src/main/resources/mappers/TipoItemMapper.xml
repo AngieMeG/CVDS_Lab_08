@@ -17,6 +17,7 @@
         ti.descripcion AS ti_descripcion
       FROM VI_TIPOITEM AS ti
       WHERE ti.id = #{idTi}
+      LIMIT 1
     </select>
 
     <insert parameterType="map" id="addTipoItem">

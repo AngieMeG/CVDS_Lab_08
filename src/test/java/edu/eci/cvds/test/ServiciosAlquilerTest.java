@@ -21,7 +21,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
-
 public class ServiciosAlquilerTest {
 
     @Inject
@@ -29,15 +28,29 @@ public class ServiciosAlquilerTest {
 
     ServiciosAlquiler serviciosAlquiler;
 
+
     public ServiciosAlquilerTest() {
         serviciosAlquiler = ServiciosAlquilerFactory.getInstance().getServiciosAlquilerTesting();
+        ArrayList<ItemRentado> rentados = new ArrayList<ItemRentado>();
+        try{
+            serviciosAlquiler.registrarCliente(new Cliente("Angie", 123, "456", "789", "101", false, rentados));
+            serviciosAlquiler.registrarTipoItem(new TipoItem(1, "Simulacion"));
+            serviciosAlquiler.registrarTipoItem(new TipoItem(2, "Accion"));
+            Item item = new Item(serviciosAlquiler.consultarTipoItem(2), 1, "a", "b", Date.valueOf("2020-03-28"), 10000L, "c", "d");
+            serviciosAlquiler.registrarItem(item);
+            Cliente c = serviciosAlquiler.consultarCliente(123);
+            serviciosAlquiler.registrarAlquilerCliente(Date.valueOf("2020-03-28"), c.getDocumento(), item, 10);
+            serviciosAlquiler.registrarCliente(new Cliente("Angie", 12, "456", "789", "101", false, rentados));
+            Item item2 = new Item(serviciosAlquiler.consultarTipoItem(1), 2, "a1", "b1", Date.valueOf("2021-03-28"), 10003L, "c1", "d1");
+            serviciosAlquiler.registrarItem(item2);
+        } catch(ExcepcionServiciosAlquiler e){}
     }
 
     @Before
     public void setUp() {
     }
 
-    @Test
+    /*@Test
     public void emptyDB() {
         for(int i = 0; i < 100; i += 10) {
             boolean r = false;
@@ -52,13 +65,11 @@ public class ServiciosAlquilerTest {
             // Validate no Client was found;
             Assert.assertTrue(r);
         }
-    }
+    }*/
 
     @Test
     public void deberiaInsertarUnCliente(){
         try{
-            ArrayList<ItemRentado> rentados = new ArrayList<ItemRentado>();
-            serviciosAlquiler.registrarCliente(new Cliente("Angie", 123, "456", "789", "101", false, rentados));
             assertTrue(serviciosAlquiler.consultarClientes().size() > 0);
         } catch(ExcepcionServiciosAlquiler e){
             fail("Lanzo excepcion.");
@@ -68,8 +79,6 @@ public class ServiciosAlquilerTest {
     @Test
     public void deberiaSerClienteValido(){
         try{
-            ArrayList<ItemRentado> rentados = new ArrayList<ItemRentado>();
-            serviciosAlquiler.registrarCliente(new Cliente("Angie", 123, "456", "789", "101", false, rentados));
             Cliente cliente = serviciosAlquiler.consultarCliente(123L);
             assertEquals(123L, cliente.getDocumento());
         } catch(ExcepcionServiciosAlquiler e){
@@ -88,9 +97,8 @@ public class ServiciosAlquilerTest {
     }
 
     @Test
-    public void deberiaInsertarUnTipo(){
+    public void deberiaHaberInsertadoUnTipo(){
         try{
-            //serviciosAlquiler.registrarTipoItem(new TipoItem(1, "Simulacion"));
             assertTrue(serviciosAlquiler.consultarTiposItem().size() > 0);
         } catch(ExcepcionServiciosAlquiler e){
             fail("Lanzo excepcion.");
@@ -100,8 +108,7 @@ public class ServiciosAlquilerTest {
     @Test
     public void deberiaConsultarTipoItemValido(){
         try{
-            //serviciosAlquiler.registrarTipoItem(new TipoItem(2, "Accion"));
-            assertEquals(2, serviciosAlquiler.consultarTipoItem(2).getID());
+            assertEquals(1, serviciosAlquiler.consultarTipoItem(1).getID());
         } catch(ExcepcionServiciosAlquiler e){
             fail("Lanzo excepcion.");
         }
@@ -118,11 +125,8 @@ public class ServiciosAlquilerTest {
     }
 
     @Test
-    public void deberiaInsertarunItem(){
+    public void deberiaHaberInsertadounItem(){
         try{
-            TipoItem ti = serviciosAlquiler.consultarTipoItem(2);
-            Item i = new Item(ti, 1, "a", "b", Date.valueOf("2020-03-28"), 10000L, "c", "d");
-            serviciosAlquiler.registrarItem(i);
             assertTrue(serviciosAlquiler.consultarItemsDisponibles().size() > 0);
         } catch(ExcepcionServiciosAlquiler e){    
             fail("Lanzo excepcion.");
@@ -132,9 +136,6 @@ public class ServiciosAlquilerTest {
     @Test
     public void deberiaConsultarItemValido(){
         try{
-            TipoItem ti = serviciosAlquiler.consultarTipoItem(2);
-            Item i = new Item(ti, 1, "a", "b", Date.valueOf("2020-03-28"), 10000L, "c", "d");
-            serviciosAlquiler.registrarItem(i);
             assertEquals(1, serviciosAlquiler.consultarItem(1).getId());
         } catch(ExcepcionServiciosAlquiler e){
             fail("Lanzo excepcion.");
@@ -153,14 +154,9 @@ public class ServiciosAlquilerTest {
     }
 
     @Test
-    public void deberiaInsertarunAlquiler(){
+    public void deberiaHaberInsertadounAlquiler(){
         try{
-            TipoItem ti = serviciosAlquiler.consultarTipoItem(2);
-            Item i = new Item(ti, 1, "a", "b", Date.valueOf("2020-03-28"), 10000L, "c", "d");
-            ArrayList<ItemRentado> rentados = new ArrayList<ItemRentado>();
-            Cliente c = new Cliente("Angie", 123, "456", "789", "101", false, rentados);
-            serviciosAlquiler.registrarAlquilerCliente(Date.valueOf("2020-03-28"), c.getDocumento(), i, 10);
-            assertTrue(serviciosAlquiler.consultarItemsCliente(c.getDocumento()).size() > 0);
+            assertTrue(serviciosAlquiler.consultarItemsCliente(123).size() > 0);
         } catch(ExcepcionServiciosAlquiler e){    
             fail("Lanzo excepcion.");
         }
@@ -169,13 +165,8 @@ public class ServiciosAlquilerTest {
     @Test
     public void deberiaConsultarAlquiler(){
         try{
-            TipoItem ti = serviciosAlquiler.consultarTipoItem(2);
-            Item i = new Item(ti, 1, "a", "b", Date.valueOf("2020-03-28"), 10000L, "c", "d");
-            ArrayList<ItemRentado> rentados = new ArrayList<ItemRentado>();
-            Cliente c = new Cliente("Angie", 123, "456", "789", "101", false, rentados);
-            //serviciosAlquiler.registrarAlquilerCliente(Date.valueOf("2020-03-28"), c.getDocumento(), i, 10);
             boolean found = false;
-            for (ItemRentado item : serviciosAlquiler.consultarItemsCliente(c.getDocumento())){
+            for (ItemRentado item : serviciosAlquiler.consultarItemsCliente(123)){
                 if (item.getItem().getId() == 1) {
                     found = true;
                     break;
@@ -189,11 +180,8 @@ public class ServiciosAlquilerTest {
     
     @Test
     public void noDeberiaTenerAlquiler(){
-        ArrayList<ItemRentado> rentados = new ArrayList<ItemRentado>();
-        Cliente c = new Cliente("Angie", 12, "456", "789", "101", false, rentados);
         try{
-            serviciosAlquiler.registrarCliente(c);
-            assertTrue(serviciosAlquiler.consultarItemsCliente(c.getDocumento()).size() == 0);
+            assertTrue(serviciosAlquiler.consultarItemsCliente(12).size() == 0);
         } catch(ExcepcionServiciosAlquiler e){
             fail("Lanzo excepcion.");
         }
@@ -213,9 +201,6 @@ public class ServiciosAlquilerTest {
     public void noDeberiaConsultarMultaAlquiler(){
         try{
             Date fecha = Date.valueOf("2020-04-28");
-            TipoItem ti = serviciosAlquiler.consultarTipoItem(2);
-            Item i = new Item(ti, 2, "a1", "b1", Date.valueOf("2021-03-28"), 10003L, "c1", "d1");
-            //serviciosAlquiler.registrarItem(i);
             serviciosAlquiler.consultarMultaAlquiler(2, fecha);
             fail("No lanzo excepcion.");
         } catch(ExcepcionServiciosAlquiler e){
