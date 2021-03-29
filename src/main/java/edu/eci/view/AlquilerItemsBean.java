@@ -3,6 +3,9 @@ package edu.eci.cvds.view;
 import com.google.inject.Inject;
 
 import edu.eci.cvds.samples.entities.*;
+=======
+import edu.eci.cvds.samples.entities.Cliente;
+>>>>>>> 633ac5ab3ae147841e2a0d700fc8ab07e669ef17
 import edu.eci.cvds.samples.services.ServiciosAlquiler;
 import edu.eci.cvds.samples.services.ExcepcionServiciosAlquiler;
 
