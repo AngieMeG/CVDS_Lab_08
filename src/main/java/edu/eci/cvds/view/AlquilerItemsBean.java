@@ -11,11 +11,13 @@ import java.util.ArrayList;
 
 import java.sql.Date;
 
-import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext; 
+import javax.faces.application.FacesMessage; 
 
 @ManagedBean(name = "AlquilerBean")
-@ApplicationScoped
+@SessionScoped
 public class AlquilerItemsBean extends BasePageBean {
 
     @Inject
@@ -33,8 +35,6 @@ public class AlquilerItemsBean extends BasePageBean {
 	added = new ArrayList<Cliente>();
 	costoAlquiler=0;
     }
-
-
 
     public List<Cliente> consultarClientes() throws ExcepcionServiciosAlquiler{
         try {
@@ -57,8 +57,13 @@ public class AlquilerItemsBean extends BasePageBean {
       * 
       */
     public void registrar(String nombre, long documento, String telefono, String direccion, String email) throws ExcepcionServiciosAlquiler{
-        added.add(new Cliente(nombre,documento,telefono,direccion,email));
-	serviciosAlquiler.registrarCliente(added.get(added.size() - 1));
+	try{	
+		Cliente nuevo = new Cliente(nombre,documento,telefono,direccion,email);
+		serviciosAlquiler.registrarCliente(nuevo);
+		added.add(nuevo);
+	}catch(Exception e){
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error ", "Ya se encuentra registrado un cliente con documento '" + documento + "'"));
+	}
     }
 
     public void setCliente(Cliente cliente){
@@ -84,8 +89,12 @@ public class AlquilerItemsBean extends BasePageBean {
     * @param numDays numero de dias por los cuales se solicita el item
     */
     public void registrarAlquiler(int idItem , int numDays) throws ExcepcionServiciosAlquiler {
-        Item item = serviciosAlquiler.consultarItem(idItem);
-        serviciosAlquiler.registrarAlquilerCliente(new Date(System.currentTimeMillis()),cliente.getDocumento(),item,numDays);
+	try{
+        	Item item = serviciosAlquiler.consultarItem(idItem);
+        	serviciosAlquiler.registrarAlquilerCliente(new Date(System.currentTimeMillis()),cliente.getDocumento(),item,numDays);
+	}catch(Exception e){
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error ",e.getMessage()));
+	}
     }
 
     public void setCostoAlquiler(long costoAlquiler){
@@ -111,7 +120,13 @@ public class AlquilerItemsBean extends BasePageBean {
     * @param nDays numero de dias a rentar
     */
     public void consultarCosto(int iditem , int nDays) throws ExcepcionServiciosAlquiler {
-    	costoAlquiler = serviciosAlquiler.consultarCostoAlquiler(iditem, nDays);
+	costoAlquiler=0;
+	try{
+    		costoAlquiler = serviciosAlquiler.consultarCostoAlquiler(iditem, nDays);
+		System.out.println(costoAlquiler);
+	}catch(Exception e){
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error ",e.getMessage()));
+	}
     }
 
     /**

@@ -106,6 +106,7 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
            if (itemRentado == null) throw new ExcepcionServiciosAlquiler(ExcepcionServiciosAlquiler.NO_ITEM_RENTED);
            LocalDate fechaFinal = itemRentado.getFechafinrenta().toLocalDate();
            long dias = ChronoUnit.DAYS.between(fechaFinal, fechaDevolucion.toLocalDate());
+           System.out.println("Test: " + dias);
            if (dias < 0) dias = 0;
            return  dias * valorMultaRetrasoxDia(iditem);
        } catch (PersistenceException ex){
